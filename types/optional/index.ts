@@ -1,5 +1,5 @@
-import * as Base from './base'
-import * as Value from './value'
+import * as Base from '../base'
+import * as Value from '../value'
 
 // tslint:disable:no-null-keyword
 

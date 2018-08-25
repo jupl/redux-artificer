@@ -1,5 +1,5 @@
-import {Builders} from '..'
-import * as Value from './value'
+import * as Value from '.'
+import {Builders} from '../..'
 
 describe('Value type', () => {
   const {

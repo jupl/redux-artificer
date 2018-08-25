@@ -1,5 +1,5 @@
-import {Builders} from '..'
-import * as Flag from './flag'
+import * as Flag from '.'
+import {Builders} from '../..'
 
 describe('Flag type', () => {
   const {

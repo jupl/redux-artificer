@@ -1,5 +1,5 @@
-import {Builders} from '..'
-import * as List from './list'
+import * as List from '.'
+import {Builders} from '../..'
 
 interface Custom {
   id: number

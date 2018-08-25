@@ -1,4 +1,4 @@
-import * as Base from './base'
+import * as Base from '../base'
 
 /** Value type reducers */
 export type Reducers<S> = { // tslint:disable-line:interface-over-type-literal

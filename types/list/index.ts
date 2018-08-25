@@ -1,4 +1,4 @@
-import * as Value from './value'
+import * as Value from '../value'
 
 /** Default list type options */
 // tslint:disable-next-line:no-any

@@ -1,5 +1,5 @@
-import {Builders} from '..'
-import * as Optional from './optional'
+import * as Optional from '.'
+import {Builders} from '../..'
 
 // tslint:disable:no-null-keyword
 

@@ -1,4 +1,4 @@
-import * as Value from './value'
+import * as Value from '../value'
 
 /** Default flag type options */
 export const DEFAULT_OPTIONS: Readonly<Options> = {
