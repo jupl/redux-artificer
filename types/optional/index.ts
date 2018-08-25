@@ -39,11 +39,7 @@ export interface Options<T> {
 export function New<T>(options?: Partial<Options<T>>): Type<T> {
   const newOptions: Options<T> = {...DEFAULT_OPTIONS, ...options}
   const {initialState = null} = newOptions
-  const type = Value.New({
-    ...DEFAULT_OPTIONS,
-    ...options,
-    initialState,
-  })
+  const type = Value.New({...newOptions, initialState})
   return {
     ...type,
     reducers: {

@@ -1,6 +1,6 @@
 import {AnyAction} from 'redux'
-import {Options} from '.'
-import {Type} from '../types/base'
+import {Options} from '..'
+import {Type} from '../../types/base'
 
 // tslint:disable:no-any
 
@@ -64,7 +64,10 @@ export function build<T extends Type>(
       initialState,
       actions: undefined!,
       reducer: state => state,
-      selectors: selectors as any,
+      selectors: buildSelectors({
+        parentKeys: options.parentKeys,
+        selectors: selectors as any,
+      }),
     })
 }
 
@@ -82,6 +85,7 @@ export interface BuildReducerOptions<T extends Type> {
 
 /** Massage reducer options */
 export interface BuildSelectorsOptions<T extends Type> {
+  parentKeys: string[]
   selectors: Selectors<T>
 }
 
@@ -91,9 +95,11 @@ export interface BuildSelectorsOptions<T extends Type> {
  * @return Actions
  */
 export function buildAction({actionType}: BuildActionOptions) {
-  return (payload: any): AnyAction => payload !== undefined
-    ? {payload, type: actionType}
-    : {type: actionType}
+  return Object.assign(
+    (payload: any): AnyAction => payload !== undefined
+      ? {payload, type: actionType}
+      : {type: actionType},
+    {toString: () => actionType})
 }
 
 /**
@@ -112,4 +118,28 @@ export function buildReducer<T extends Type>({
       ? reducerForType(newState, action.payload)
       : newState
   }
+}
+
+/**
+ * Construct selector
+ * @param options Generator options
+ * @return Selectors map
+ */
+export function buildSelectors<T extends Type>({
+  parentKeys,
+  selectors,
+}: BuildSelectorsOptions<T>) {
+  return parentKeys.length > 0
+    ? Object
+      .entries(selectors)
+      // @ts-ignore
+      .reduce<Selectors<T>>((s, [key, reducer]) => ({
+        // @ts-ignore
+        ...s,
+        [key]: (state: any, opts: any) => {
+          const newState = parentKeys.reduce((t, k) => t[k], state)
+          return reducer(newState, opts)
+        },
+      }), selectors)
+    : selectors
 }
