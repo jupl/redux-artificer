@@ -1,0 +1,41 @@
+{
+  "name": "redux-artificer",
+  "author": "jupl",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jupl/redux-artificer/issues"
+  },
+  "homepage": "https://github.com/jupl/redux-artificer#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jupl/redux-artificer"
+  },
+  "scripts": {
+    "coverage": "npm run test -- --coverage",
+    "coverage:watch": "npm run coverage -- --watch",
+    "codecov": "npm run coverage && codecov",
+    "lint": "tsc && npm run lint:file",
+    "lint:file": "tslint --project tsconfig.json",
+    "test": "jest --config .jestrc.json",
+    "test:watch": "npm run test -- --watch"
+  },
+  "peerDependencies": {
+    "redux": "*"
+  },
+  "devDependencies": {
+    "@jupl/tslint-config": "^0.5.1",
+    "@types/jest": "^23.3.1",
+    "husky": "^0.14.3",
+    "jest": "^23.5.0",
+    "jest-cli": "^23.5.0",
+    "lint-staged": "^7.2.2",
+    "redux": "^4.0.0",
+    "ts-jest": "^23.1.4",
+    "tslint": "^5.11.0",
+    "tslint-eslint-rules": "^5.4.0",
+    "tslint-immutable": "^4.6.0",
+    "tslint-language-service": "^0.9.9",
+    "tslint-sonarts": "^1.7.0",
+    "typescript": "^3.0.1"
+  }
+}

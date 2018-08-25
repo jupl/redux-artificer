@@ -1,0 +1,7 @@
+.coverage
+.editorconfig
+.gitignore
+.travis.yml
+*.ts
+*.json
+!*.d.ts
