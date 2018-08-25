@@ -1,5 +1,6 @@
 {
   "name": "redux-artificer",
+  "version": "0.1.0",
   "author": "jupl",
   "license": "MIT",
   "bugs": {
@@ -25,6 +26,7 @@
   "devDependencies": {
     "@jupl/tslint-config": "^0.5.1",
     "@types/jest": "^23.3.1",
+    "codecov": "^3.0.4",
     "husky": "^0.14.3",
     "jest": "^23.5.0",
     "jest-cli": "^23.5.0",
