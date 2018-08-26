@@ -14,7 +14,7 @@ For more selectors see [[../value/README.org#selectors][values readme]]
 ** Example
 #+BEGIN_SRC typescript
 import {createStore} from 'redux'
-import {Builder, Types} from 'redux-artificer'
+import {Builders, Types} from 'redux-artificer'
 
 const {actions, reducer, selectors} = Builders.build({
   flag1: Types.Flag.New(),

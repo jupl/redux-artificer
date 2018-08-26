@@ -14,7 +14,7 @@ Value type is the most basic type, simply containing a value of type =T=.
 ** Example
 #+BEGIN_SRC typescript
 import {createStore} from 'redux'
-import {Builder, Types} from 'redux-artificer'
+import {Builders, Types} from 'redux-artificer'
 
 const {actions, reducer, selectors} = Builders.build({
   id: Types.Value.New({initialState: 0}),

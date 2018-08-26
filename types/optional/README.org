@@ -15,7 +15,7 @@ For more actions see [[../value/README.org#actions][values readme]]
 ** Example
 #+BEGIN_SRC typescript
 import {createStore} from 'redux'
-import {Builder, Types} from 'redux-artificer'
+import {Builders, Types} from 'redux-artificer'
 
 const {actions, reducer, selectors} = Builders.build({
   optional1: Types.Value.New<string>(),
