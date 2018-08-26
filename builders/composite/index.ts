@@ -7,7 +7,7 @@ export interface Remix<T extends Type> {
   actions: Actions<T>
   initialState: State<T>
   selectors: Selectors<T>
-  reducer(state: State<T>, action: AnyAction): State<T>
+  reducer(state: State<T> | undefined, action: AnyAction): State<T>
 }
 
 /** Remix based Redux actions */

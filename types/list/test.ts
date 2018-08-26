@@ -25,7 +25,7 @@ describe('List type', () => {
 
   it('should build reducer as expected', () => {
     const empty: number[] = []
-    expect(reducer([1], {type: ''})).toEqual([1])
+    expect(reducer(undefined!, {type: ''})).toEqual([])
     expect(reducer([1], actions.clear())).toEqual(empty)
     expect(reducer(empty, actions.clear())).toEqual(empty)
     expect(reducer([1], actions.insert([]))).toEqual([1])

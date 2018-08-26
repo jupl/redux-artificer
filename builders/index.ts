@@ -17,29 +17,29 @@ export interface Options {
 export type Remix<T> = T extends Types.Base.Type<infer S>
   ? Base.Remix<T>
   : T extends Types.Composite.Type
-  ? Composite.Remix<T>
-  : unknown
+    ? Composite.Remix<T>
+    : unknown
 
 /** Remix based Redux actions */
 export type Actions<T> = T extends Types.Base.Type<infer S>
   ? Base.Actions<T>
   : T extends Types.Composite.Type
-  ? Composite.Actions<T>
-  : unknown
+    ? Composite.Actions<T>
+    : unknown
 
 /** Remix based Redux selectors */
 export type Selectors<T, S = State<T>> = T extends Types.Base.Type<infer X>
   ? Base.Selectors<T, S>
   : T extends Types.Composite.Type
-  ? Composite.Selectors<T, S>
-  : unknown
+    ? Composite.Selectors<T, S>
+    : unknown
 
 /** Remix based Redux state */
 export type State<T> = T extends Types.Base.Type<infer S>
   ? Base.State<T>
   : T extends Types.Composite.Type
-  ? Composite.State<T>
-  : unknown
+    ? Composite.State<T>
+    : unknown
 
 /**
  * Construct Redux items from Remix definitions

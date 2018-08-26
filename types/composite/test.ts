@@ -48,7 +48,16 @@ describe('Composite type', () => {
       list: [1],
       value: 0,
     }
-    expect(reducer(state, {type: ''})).toBe(state)
+    expect(reducer(undefined!, {type: ''})).toEqual({
+      combo: {
+        nested: {
+          flag: false,
+        },
+        optional: null,
+      },
+      list: [],
+      value: 1,
+    })
     expect(reducer(state, actions.list.insert(0))).toEqual({
       combo: {
         nested: {

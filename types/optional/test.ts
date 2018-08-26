@@ -18,7 +18,7 @@ describe('Optional type', () => {
   })
 
   it('should build reducer as expected', () => {
-    expect(reducer(1, {type: ''})).toBe(1)
+    expect(reducer(undefined!, {type: ''})).toBe(null)
     expect(reducer(1, actions.unset())).toBe(null)
   })
 

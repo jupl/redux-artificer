@@ -9,7 +9,8 @@ type Action<R> = Payload<R> extends undefined
   ? () => AnyAction
   : (payload: Payload<R>) => AnyAction
 type Selector<F extends (arg1: any, arg2: any) => any, S> =
-  Payload<F> extends undefined ? (state: S) => ReturnType<F>
+  Payload<F> extends undefined
+    ? (state: S) => ReturnType<F>
     : (state: S, options: Payload<F>) => ReturnType<F>
 
 /** Remix structure */
@@ -17,7 +18,7 @@ export interface Remix<T extends Type> {
   actions: Actions<T>
   initialState: State<T>
   selectors: Selectors<T>
-  reducer(state: State<T>, action: AnyAction): State<T>
+  reducer(state: State<T> | undefined, action: AnyAction): State<T>
 }
 
 /** Remix based Redux actions */
@@ -41,105 +42,34 @@ export type State<T> = T extends Type<infer S> ? S : unknown
  */
 export function build<T extends Type>(
   {initialState, reducers, selectors}: T,
-  options: Options,
+  {actionType, parentKeys}: Options,
 ): Remix<T> {
-  return Object
-    .entries(reducers)
-    .reduce<Remix<T>>(({actions, reducer, ...remix}, [key, aReducer]) => {
-      const actionType = `${options.actionType}.${key}`
-      return {
-        ...remix,
-        actions: {
-          // @ts-ignore
-          ...actions,
-          [key]: buildAction({actionType}),
-        },
-        reducer: buildReducer({
-          actionType,
-          reducer,
-          reducerForType: aReducer,
-        }),
-      }
-    }, {
-      initialState,
-      actions: undefined!,
-      reducer: state => state,
-      selectors: buildSelectors({
-        parentKeys: options.parentKeys,
-        selectors: selectors as any,
-      }),
-    })
-}
-
-/** Massage actions options */
-export interface BuildActionOptions {
-  actionType: string
-}
-
-/** Massage reducer options */
-export interface BuildReducerOptions<T extends Type> {
-  actionType: string
-  reducer(state: State<T>, action: AnyAction): State<T>
-  reducerForType(state: State<T>, action: AnyAction): State<T>
-}
-
-/** Massage reducer options */
-export interface BuildSelectorsOptions<T extends Type> {
-  parentKeys: string[]
-  selectors: Selectors<T>
-}
-
-/**
- * Construct message actions
- * @param options Generator options
- * @return Actions
- */
-export function buildAction({actionType}: BuildActionOptions) {
-  return Object.assign(
-    (payload: any): AnyAction => payload !== undefined
-      ? {payload, type: actionType}
-      : {type: actionType},
-    {toString: () => actionType})
-}
-
-/**
- * Construct reducer
- * @param options Generator options
- * @return Reducer function
- */
-export function buildReducer<T extends Type>({
-  actionType,
-  reducer,
-  reducerForType,
-}: BuildReducerOptions<T>) {
-  return (state: State<T>, action: AnyAction) => {
-    const newState = reducer(state, action)
-    return action.type === actionType
-      ? reducerForType(newState, action.payload)
-      : newState
-  }
-}
-
-/**
- * Construct selector
- * @param options Generator options
- * @return Selectors map
- */
-export function buildSelectors<T extends Type>({
-  parentKeys,
-  selectors,
-}: BuildSelectorsOptions<T>) {
-  return parentKeys.length > 0
-    ? Object
-      .entries(selectors)
+  return {
+    initialState,
+    actions: Object.keys(reducers).reduce<Actions<T>>((a, key) => {
+      const type = `${actionType}.${key}`
+      Object.assign(action, {toString: () => type})
       // @ts-ignore
-      .reduce<Selectors<T>>((s, [key, reducer]) => ({
-        // @ts-ignore
+      return {...a, [key]: action}
+
+      function action(payload: any): AnyAction {
+        return payload !== undefined ? {payload, type} : {type}
+      }
+    }, undefined!),
+    reducer: (state = initialState, {type, payload}) => {
+      const key = type.replace(`${actionType}.`, '')
+      return type.startsWith(actionType) && key in reducers
+        ? reducers[key](state, payload)
+        : state
+    },
+    selectors: parentKeys.length > 0
+      ? Object.entries(selectors).reduce((s, [key, selector]) => ({
         ...s,
         [key]: (state: any, opts: any) => {
           const newState = parentKeys.reduce((t, k) => t[k], state)
-          return reducer(newState, opts)
+          return selector(newState, opts)
         },
-      }), selectors)
-    : selectors
+      }), {} as any)
+      : selectors,
+  }
 }

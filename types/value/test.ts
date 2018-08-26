@@ -14,7 +14,7 @@ describe('Value type', () => {
   })
 
   it('should build reducer as expected', () => {
-    expect(reducer(1, {type: ''})).toBe(1)
+    expect(reducer(undefined!, {type: ''})).toBe(1)
     expect(reducer(0, actions.reset())).toBe(1)
     expect(reducer(1, actions.set(0))).toBe(0)
   })
