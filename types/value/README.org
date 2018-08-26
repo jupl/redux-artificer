@@ -1,0 +1,29 @@
+* Value
+Value type is the most basic type, simply containing a value.
+
+** Options
+- =initialState= :: Required value to initialize in Redux
+
+** Actions
+- =reset(state)= :: Reset value to initial state
+- =set(state, newValue)= :: Change value to =newValue=
+
+** Selectors
+- =get(state)= :: Extract value from state
+
+** Example
+#+BEGIN_SRC typescript
+import {createStore} from 'redux'
+import {Builder, Types} from 'redux-artificer'
+
+const {actions, reducer, selectors} = Builders.build({
+  id: Types.Value.New({initialState: 0}),
+  section: Types.Value.New({initialState: 'home'}),
+})
+
+const store = createStore(reducer)
+const id = selectors.id.get(store.getState())
+const section = selectors.section.get(store.getState())
+store.dispatch(actions.id.set(1))
+store.dispatch(actions.section.set('about'))
+#+END_SRC
