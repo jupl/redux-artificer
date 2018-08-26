@@ -12,11 +12,14 @@
     "url": "https://github.com/jupl/redux-artificer"
   },
   "scripts": {
+    "build": "tsc --project tsconfig.build.json",
+    "clean": "trash '{,builders/**/,types/**/}*.{d.ts,js}'",
+    "codecov": "npm run coverage && codecov",
     "coverage": "npm run test -- --coverage",
     "coverage:watch": "npm run coverage -- --watch",
-    "codecov": "npm run coverage && codecov",
     "lint": "tsc && npm run lint:file",
     "lint:file": "tslint --project tsconfig.json",
+    "pub": "npm run clean && npm run build && npm publish",
     "test": "jest --config .jestrc.json",
     "test:watch": "npm run test -- --watch"
   },
@@ -32,6 +35,7 @@
     "jest-cli": "^23.5.0",
     "lint-staged": "^7.2.2",
     "redux": "^4.0.0",
+    "trash": "^4.3.0",
     "ts-jest": "^23.1.4",
     "tslint": "^5.11.0",
     "tslint-eslint-rules": "^5.4.0",
