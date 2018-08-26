@@ -2,20 +2,21 @@
 List type contains a list of values of type =T=.
 
 ** Options
-For more options see [[../value/README.org#options][values readme]]
+For more options see [[../value/README.org#options][value readme]]
 - =initialState?: T[] = []= :: Optional value to initialize in Redux
 - =itemEquals?: (a: T, b: T) => boolean= :: Comparator to check if two values of type =T= are identical (default to triple equals)
 
 ** Actions
-For more actions see [[../value/README.org#actions][values readme]]
+For more actions see [[../value/README.org#actions][value readme]]
 - =clear()= :: Empty list
 - =insert(items: T | T[])= :: Add items into list
 - =remove(items: T | T[])= :: Remove first occurrence of each item in list
 - =removeAll(items: T | T[])= :: Remove all occurrences of each item in list
 
 ** Selectors
-For more selectors see [[../value/README.org#selectors][values readme]]
+For more selectors see [[../value/README.org#selectors][value readme]]
 - =contains(state: S, item: T): boolean= :: If =true=, then item is in list
+- =empty(state: S): boolean= :: If =true=, then list is empty
 
 ** Example
 #+BEGIN_SRC typescript
@@ -28,12 +29,12 @@ interface Custom {
 }
 
 const {actions, reducer, selectors} = Builders.build({
-  customList: Types.List.New<Custom, number>({getId: ({id}) => id}),
+  customList: Types.List.New<Custom>(),
   numberList: Types.List.New({initialState: [-1, 0, 1]}),
 })
 
 const store = createStore(reducer)
-const value = selectors.customList.getAt(store.getState(), 1)
+const contains = selectors.numberList.contains(store.getState(), 1)
 store.dispatch(actions.customList.insert({id: 1, value: 2}))
 store.dispatch(actions.numberList.removeAll([0, 1]))
 #+END_SRC

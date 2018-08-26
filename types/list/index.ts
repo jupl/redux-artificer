@@ -19,6 +19,7 @@ export type Reducers<T> = Value.Reducers<T[]> & {
 // tslint:disable-next-line:interface-over-type-literal
 export type Selectors<T> = Value.Selectors<T[]> & {
   contains(state: T[], item: T): boolean
+  empty(state: T[]): boolean
 }
 
 /** List type declaration */
@@ -73,6 +74,7 @@ export function New<T>(options?: Partial<Options<T>>): Type<T> {
     selectors: {
       ...type.selectors,
       contains: (state, item) => state.some(i => itemEquals(i, item)),
+      empty: ({length}) => length === 0,
     },
   }
 }

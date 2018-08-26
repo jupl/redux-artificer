@@ -5,11 +5,11 @@ Flag type contains =true= or =false=.
 - =initialState?: boolean = false= :: Optional value to initialize in Redux
 
 ** Actions
-For more actions see [[../value/README.org#actions][values readme]]
+For more actions see [[../value/README.org#actions][value readme]]
 - =toggle()= :: Flip current flag value
 
 ** Selectors
-For more selectors see [[../value/README.org#selectors][values readme]]
+For more selectors see [[../value/README.org#selectors][value readme]]
 
 ** Example
 #+BEGIN_SRC typescript

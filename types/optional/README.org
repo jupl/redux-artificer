@@ -2,11 +2,11 @@
 Optional type behaves similarly to value type, except that value of type =T= can be uninitialized.
 
 ** Options
-For more options see [[../value/README.org#options][values readme]]
+For more options see [[../value/README.org#options][value readme]]
 - =initialState?: T= :: Optional value to initialize in Redux
 
 ** Actions
-For more actions see [[../value/README.org#actions][values readme]]
+For more actions see [[../value/README.org#actions][value readme]]
 - =unset()= :: Uninitialize value
 
 ** Selectors

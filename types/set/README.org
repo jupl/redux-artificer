@@ -1,0 +1,26 @@
+* Set
+Set type contains a list of unique values of type =T=.
+
+** Options
+For more options see [[../list/README.org#options][list readme]]
+
+** Actions
+For more actions see [[../list/README.org#actions][list readme]]
+
+** Selectors
+For more selectors see [[../list/README.org#selectors][list readme]]
+
+** Example
+#+BEGIN_SRC typescript
+import {createStore} from 'redux'
+import {Builders, Types} from 'redux-artificer'
+
+const {actions, reducer, selectors} = Builders.build({
+  set: Types.Set.New<number>(),
+})
+
+const store = createStore(reducer)
+const contains = selectors.set.contains(store.getState(), 1)
+store.dispatch(actions.set.insert(1))
+store.dispatch(actions.set.remove([0, 1]))
+#+END_SRC
