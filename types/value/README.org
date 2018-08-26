@@ -2,14 +2,14 @@
 Value type is the most basic type, simply containing a value.
 
 ** Options
-- =initialState= :: Required value to initialize in Redux
+- =initialState: T= :: Required value of type =T= to initialize in Redux
 
 ** Actions
-- =reset(state)= :: Reset value to initial state
-- =set(state, newValue)= :: Change value to =newValue=
+- =reset(state: T)= :: Reset value to initial state
+- =set(state: T, newValue: T)= :: Change value to =newValue=
 
 ** Selectors
-- =get(state)= :: Extract value from state
+- =get(state: S)= :: Extract possibly nested value from state =S=
 
 ** Example
 #+BEGIN_SRC typescript
