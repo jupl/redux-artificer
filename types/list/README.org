@@ -1,10 +1,10 @@
 * List
-List type contains a list of values of type =T=. By default, it is assumed =T= is a simple value type that can be checked for equality with ===. If =T= is a more complex value where you need to derive a unique identifier, see =getId= and =idMatches= below for an identifier of type =I=. Otherwise, just assume =T= and =I= are identical.
+List type contains a list of values of type =T=.
 
 ** Options
+For more options see [[../value/README.org#options][values readme]]
 - =initialState?: T[] = []= :: Optional value to initialize in Redux
-- =getId?: (item: T) => I= :: Optional function to extract unique identifier value =I= from =T=
-- =idMatches?: (a: I, b: I) => boolean= :: Optional function to check if two unique identifiers are equal
+- =itemEquals?: (a: T, b: T) => boolean= :: Comparator to check if two values of type =T= are identical (default to triple equals)
 
 ** Actions
 For more actions see [[../value/README.org#actions][values readme]]
@@ -15,8 +15,7 @@ For more actions see [[../value/README.org#actions][values readme]]
 
 ** Selectors
 For more selectors see [[../value/README.org#selectors][values readme]]
-- =getAt(state: S, id: I): T | undefined= :: Extract possibly nested item in list from state =S=
-- =contains(state: S, id: I): boolean= :: If =true=, then item is in list
+- =contains(state: S, item: T): boolean= :: If =true=, then item is in list
 
 ** Example
 #+BEGIN_SRC typescript

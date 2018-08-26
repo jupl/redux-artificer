@@ -7,11 +7,15 @@ import {Type} from '../../types/base'
 type Payload<R> = R extends (a1: any, a2: infer P) => unknown ? P : undefined
 type Action<R> = Payload<R> extends undefined
   ? () => AnyAction
-  : (payload: Payload<R>) => AnyAction
+  : Payload<R> extends NonNullable<Payload<R>>
+    ? (payload: Payload<R>) => AnyAction
+    : (payload?: Payload<R>) => AnyAction
 type Selector<F extends (arg1: any, arg2: any) => any, S> =
   Payload<F> extends undefined
     ? (state: S) => ReturnType<F>
-    : (state: S, options: Payload<F>) => ReturnType<F>
+    : Payload<F> extends NonNullable<Payload<F>>
+      ? (state: S, options: Payload<F>) => ReturnType<F>
+      : (state: S, options?: Payload<F>) => ReturnType<F>
 
 /** Remix structure */
 export interface Remix<T extends Type> {

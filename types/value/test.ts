@@ -16,7 +16,9 @@ describe('Value type', () => {
   it('should build reducer as expected', () => {
     expect(reducer(undefined!, {type: ''})).toBe(1)
     expect(reducer(0, actions.reset())).toBe(1)
+    expect(reducer(1, actions.reset())).toBe(1)
     expect(reducer(1, actions.set(0))).toBe(0)
+    expect(reducer(0, actions.set(0))).toBe(0)
   })
 
   it('should build selectors as expected', () => {

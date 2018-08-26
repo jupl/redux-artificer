@@ -2,6 +2,7 @@
 Optional type behaves similarly to value type, except that value of type =T= can be uninitialized.
 
 ** Options
+For more options see [[../value/README.org#options][values readme]]
 - =initialState?: T= :: Optional value to initialize in Redux
 
 ** Actions

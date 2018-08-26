@@ -1,8 +1,8 @@
 import * as Value from '../value'
 
-/** Default flag type options */
-export const DEFAULT_OPTIONS: Readonly<Options> = {
-  initialState: false,
+/** Flag type generator options */
+export interface Options extends Value.Options<boolean> {
+  initialState: boolean
 }
 
 /** Flag type reducers */
@@ -20,9 +20,10 @@ export interface Type extends Value.Type<boolean> {
   selectors: Selectors
 }
 
-/** Flag type generator options */
-export interface Options {
-  initialState: boolean
+/** Default flag type options */
+export const DEFAULT_OPTIONS: Readonly<Options> = {
+  ...Value.DEFAULT_OPTIONS,
+  initialState: false,
 }
 
 /**

@@ -1,11 +1,6 @@
 import * as List from '.'
 import {Builders} from '../..'
 
-interface Custom {
-  id: number
-  value: string
-}
-
 describe('List type', () => {
   const {
     initialState,
@@ -13,14 +8,11 @@ describe('List type', () => {
     reducer,
     selectors,
   } = Builders.build(List.New<number>())
-  const custom = Builders.build(List.New<Custom, number>({
-    getId: ({id}) => id,
-    initialState: [{id: 1, value: '1'}],
-  }))
+  const custom = Builders.build(List.New({initialState: [1]}))
 
   it('should include initial state as expected', () => {
     expect(initialState).toEqual([])
-    expect(custom.initialState).toEqual([{id: 1, value: '1'}])
+    expect(custom.initialState).toEqual([1])
   })
 
   it('should build reducer as expected', () => {
@@ -37,7 +29,6 @@ describe('List type', () => {
   })
 
   it('should build selectors as expected', () => {
-    expect(selectors.getAt([1], 1)).toBe(1)
     expect(selectors.contains([1], 0)).toBe(false)
   })
 })

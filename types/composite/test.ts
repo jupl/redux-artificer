@@ -101,7 +101,6 @@ describe('Composite type', () => {
       list: [1],
       value: 0,
     }
-    expect(selectors.list.getAt(state, 0)).toBe(undefined)
     expect(selectors.value.get(state)).toBe(0)
     expect(selectors.combo.nested.flag.get(state)).toBe(true)
   })

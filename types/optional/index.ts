@@ -3,9 +3,11 @@ import * as Value from '../value'
 
 // tslint:disable:no-null-keyword
 
-/** Default optional value options */
-// tslint:disable-next-line:no-any
-export const DEFAULT_OPTIONS: Readonly<Options<any>> = {}
+/** Optional value generator options */
+export interface Options<T> {
+  initialState: T
+  equals(a: T | null, b: T | null): boolean
+}
 
 /** Optional value reducers */
 // tslint:disable-next-line:interface-over-type-literal
@@ -26,9 +28,11 @@ export interface Type<S> extends Base.Type<S | null> {
   selectors: Selectors<S>
 }
 
-/** Optional value generator options */
-export interface Options<T> {
-  initialState?: T
+/** Default optional value options */
+// tslint:disable-next-line:no-any
+export const DEFAULT_OPTIONS: Readonly<Options<any>> = {
+  ...Value.DEFAULT_OPTIONS,
+  initialState: null,
 }
 
 /**
@@ -37,9 +41,7 @@ export interface Options<T> {
  * @return Optional value type declaration
  */
 export function New<T>(options?: Partial<Options<T>>): Type<T> {
-  const newOptions: Options<T> = {...DEFAULT_OPTIONS, ...options}
-  const {initialState = null} = newOptions
-  const type = Value.New({...newOptions, initialState})
+  const type = Value.New({...DEFAULT_OPTIONS, ...options})
   return {
     ...type,
     reducers: {
