@@ -1,0 +1,28 @@
+* Flag
+Flag type contains =true= or =false=.
+
+** Options
+- =initialState?: boolean = false= :: Optional value to initialize in Redux
+
+** Actions
+For more actions see [[../value/README.org#actions][values readme]]
+- =toggle()= :: Flip current flag value
+
+** Selectors
+For more selectors see [[../value/README.org#selectors][values readme]]
+
+** Example
+#+BEGIN_SRC typescript
+import {createStore} from 'redux'
+import {Builder, Types} from 'redux-artificer'
+
+const {actions, reducer, selectors} = Builders.build({
+  flag1: Types.Flag.New(),
+  flag2: Types.Flag.New({initialState: true}),
+})
+
+const store = createStore(reducer)
+const flag = selectors.flag1.get(store.getState())
+store.dispatch(actions.flag1.set(true))
+store.dispatch(actions.flag2.toggle())
+#+END_SRC

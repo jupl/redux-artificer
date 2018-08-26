@@ -1,0 +1,40 @@
+* List
+List type contains a list of values of type =T=. By default, it is assumed =T= is a simple value type that can be checked for equality with ===. If =T= is a more complex value where you need to derive a unique identifier, see =getId= and =idMatches= below for an identifier of type =I=. Otherwise, just assume =T= and =I= are identical.
+
+** Options
+- =initialState?: T[] = []= :: Optional value to initialize in Redux
+- =getId?: (item: T) => I= :: Optional function to extract unique identifier value =I= from =T=
+- =idMatches?: (a: I, b: I) => boolean= :: Optional function to check if two unique identifiers are equal
+
+** Actions
+For more actions see [[../value/README.org#actions][values readme]]
+- =clear()= :: Empty list
+- =insert(items: T | T[])= :: Add items into list
+- =remove(items: T | T[])= :: Remove first occurrence of each item in list
+- =removeAll(items: T | T[])= :: Remove all occurrences of each item in list
+
+** Selectors
+For more selectors see [[../value/README.org#selectors][values readme]]
+- =getAt(state: S, id: I): T | undefined= :: Extract possibly nested item in list from state =S=
+- =contains(state: S, id: I): boolean= :: If =true=, then item is in list
+
+** Example
+#+BEGIN_SRC typescript
+import {createStore} from 'redux'
+import {Builder, Types} from 'redux-artificer'
+
+interface Custom {
+  id: number
+  value: string
+}
+
+const {actions, reducer, selectors} = Builders.build({
+  customList: Types.List.New<Custom, number>({getId: ({id}) => id}),
+  numberList: Types.List.New({initialState: [-1, 0, 1]}),
+})
+
+const store = createStore(reducer)
+const value = selectors.customList.getAt(store.getState(), 1)
+store.dispatch(actions.customList.insert({id: 1, value: 2}))
+store.dispatch(actions.numberList.removeAll([0, 1]))
+#+END_SRC

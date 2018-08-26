@@ -1,15 +1,15 @@
 * Value
-Value type is the most basic type, simply containing a value.
+Value type is the most basic type, simply containing a value of type =T=.
 
 ** Options
-- =initialState: T= :: Required value of type =T= to initialize in Redux
+- =initialState: T= :: Required value to initialize in Redux
 
 ** Actions
-- =reset(state: T)= :: Reset value to initial state
-- =set(state: T, newValue: T)= :: Change value to =newValue=
+- =reset()= :: Reset value to initial state
+- =set(newValue: T)= :: Change value to =newValue=
 
 ** Selectors
-- =get(state: S)= :: Extract possibly nested value from state =S=
+- =get(state: S): T= :: Extract possibly nested value from state =S=
 
 ** Example
 #+BEGIN_SRC typescript

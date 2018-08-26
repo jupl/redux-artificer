@@ -1,0 +1,28 @@
+* Optional
+Optional type behaves similarly to value type, except that value of type =T= can be uninitialized.
+
+** Options
+- =initialState?: T= :: Optional value to initialize in Redux
+
+** Actions
+For more actions see [[../value/README.org#actions][values readme]]
+- =unset()= :: Uninitialize value
+
+** Selectors
+- =get(state: S): T | undefined= :: Extract possibly nested value from state =S= (=undefined= if uninitialized)
+- =isSet(state: S): boolean= :: If =true=, then value is initialized
+
+** Example
+#+BEGIN_SRC typescript
+import {createStore} from 'redux'
+import {Builder, Types} from 'redux-artificer'
+
+const {actions, reducer, selectors} = Builders.build({
+  optional1: Types.Value.New<string>(),
+  optional2: Types.Value.New({initialState: 1}),
+})
+
+const store = createStore(reducer)
+const is1Set = selectors.optional1.isSet(store.getState())
+store.dispatch(actions.optional2.unset())
+#+END_SRC
