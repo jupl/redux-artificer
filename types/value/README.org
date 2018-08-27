@@ -3,14 +3,14 @@ Value type is the most basic type, simply containing a value of type =T=.
 
 ** Options
 - =initialState: T= :: Required value to initialize in Redux
-- =equals?: (a: T, b: T) => boolean= :: Comparator to check if two values of type =T= are identical (default to triple equals)
+- =equals?: (a: T, b: T) => boolean= :: Optional to check if two values of type =T= are identical (default to triple equals)
 
 ** Actions
 - =reset()= :: Reset value to initial state
-- =set(newValue: T)= :: Change value to =newValue=
+- =set(newValue: T)= :: Change current value to specified value
 
 ** Selectors
-- =get(state: S): T= :: Extract possibly nested value from state =S=
+- =get(state: S): T= :: Get value
 
 ** Example
 #+BEGIN_SRC typescript

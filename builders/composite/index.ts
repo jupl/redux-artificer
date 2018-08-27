@@ -57,21 +57,12 @@ export function build<T extends Type>(
       return [
         {
           ...remix,
-          actions: {
-            // @ts-ignore
-            ...actions,
-            [key]: subActions,
-          },
-          initialState: {
-            // @ts-ignore
-            ...initialState,
-            [key]: subInitialState,
-          },
-          selectors: {
-            // @ts-ignore
-            ...selectors,
-            [key]: subSelectors,
-          },
+          // @ts-ignore
+          actions: {...actions, [key]: subActions},
+          // @ts-ignore
+          initialState: {...initialState, [key]: subInitialState},
+          // @ts-ignore
+          selectors: {...selectors, [key]: subSelectors},
         },
         {
           ...reducers,

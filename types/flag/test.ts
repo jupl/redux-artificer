@@ -17,5 +17,9 @@ describe('Flag type', () => {
   it('should build reducer as expected', () => {
     expect(reducer(undefined!, {type: ''})).toBe(false)
     expect(reducer(true, actions.toggle())).toBe(false)
+    expect(reducer(true, actions.on())).toBe(true)
+    expect(reducer(false, actions.on())).toBe(true)
+    expect(reducer(true, actions.off())).toBe(false)
+    expect(reducer(false, actions.off())).toBe(false)
   })
 })

@@ -1,3 +1,4 @@
+import {Omit} from '../../util'
 import * as Base from '../base'
 import * as Value from '../value'
 
@@ -6,12 +7,13 @@ import * as Value from '../value'
 /** Optional value generator options */
 export interface Options<T> {
   initialState: T
-  equals(a: T | null, b: T | null): boolean
+  equals(a?: T, b?: T): boolean
 }
 
 /** Optional value reducers */
 // tslint:disable-next-line:interface-over-type-literal
-export type Reducers<S> = Value.Reducers<S | null> & {
+export type Reducers<S> = Omit<Value.Reducers<S | null>, 'set'> & {
+  set(state: S | null, payload: S): S | null
   unset(state: S | null, payload: undefined): S | null
 }
 
@@ -31,7 +33,7 @@ export interface Type<S> extends Base.Type<S | null> {
 /** Default optional value options */
 // tslint:disable-next-line:no-any
 export const DEFAULT_OPTIONS: Readonly<Options<any>> = {
-  ...Value.DEFAULT_OPTIONS,
+  equals: (a, b) => a === b,
   initialState: null,
 }
 
@@ -41,7 +43,15 @@ export const DEFAULT_OPTIONS: Readonly<Options<any>> = {
  * @return Optional value type declaration
  */
 export function New<T>(options?: Partial<Options<T>>): Type<T> {
-  const type = Value.New({...DEFAULT_OPTIONS, ...options})
+  const {equals, ...newOptions}: Options<T> = {...DEFAULT_OPTIONS, ...options}
+  const type = Value.New<T | null>({
+    ...newOptions,
+    equals: (a, b) => {
+      const newA = a !== null ? a : undefined
+      const newB = b !== null ? b : undefined
+      return equals(newA, newB)
+    },
+  })
   return {
     ...type,
     reducers: {
@@ -49,6 +59,7 @@ export function New<T>(options?: Partial<Options<T>>): Type<T> {
       unset: () => null,
     },
     selectors: {
+      ...type.selectors,
       get: state => state !== null ? state : undefined,
       isSet: state => state !== null,
     },

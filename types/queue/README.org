@@ -2,16 +2,22 @@
 Queue type contains a list of unique values of type =T=. Adding/removing items acts like a queue. (FIFO)
 
 ** Options
-For more options see [[../list/README.org#options][list readme]]
+- =initialState?: T[] = []= :: Optional list to initialize in Redux
+- =equals?: (a: T, b: T) => boolean= :: Optional comparator to check if two values of type =T= are identical (default to triple equals)
+- =listEquals?: (equals: a: T, b: T) => (a: T[], b: T[]) => boolean= :: Optional generator to create a comparator to check if lists of type =T[]= are identical
 
 ** Actions
-For more actions see [[../list/README.org#actions][list readme]]
-- =pop(count: number = 1)= :: Remove a number of items off the head of the queue
+- =clear()= :: Empty queue
+- =insert(items: T | T[])= :: Add (push) items into the tail of the queue
+- =remove(count: number = 1)= :: Remove (pop) a number of items off the head of the queue
+- =reset()= :: Reset queue to initial state
+- =set(newValue: T[])= :: Change current queue to specified list
 
 ** Selectors
-For more selectors see [[../list/README.org#selectors][list readme]]
-- =peek(state: S, count: number): T[]= :: View a number of items off the head of the queue
-- =peekOne(state: S): T | undefined= :: View the top of the queue (=undefined= if empty)
+- =contains(state: S, item: T): boolean= :: If =true=, then item is in queue
+- =empty(state: S): boolean= :: If =true=, then queue is empty
+- =get(state: S): T[]= :: Get queue
+- =peek(state: S): T | undefined= :: View the top of the queue (=undefined= if empty)
 
 ** Example
 #+BEGIN_SRC typescript
@@ -19,11 +25,11 @@ import {createStore} from 'redux'
 import {Builders, Types} from 'redux-artificer'
 
 const {actions, reducer, selectors} = Builders.build({
-  set: Types.Set.New<number>(),
+  queue: Types.Queue.New<number>(),
 })
 
 const store = createStore(reducer)
-const contains = selectors.set.contains(store.getState(), 1)
-store.dispatch(actions.set.insert(1))
-store.dispatch(actions.set.remove([0, 1]))
+const head = selectors.queue.peek(store.getState())
+store.dispatch(actions.queue.push(1))
+store.dispatch(actions.queue.pop())
 #+END_SRC

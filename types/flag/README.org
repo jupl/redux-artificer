@@ -3,13 +3,17 @@ Flag type contains =true= or =false=.
 
 ** Options
 - =initialState?: boolean = false= :: Optional value to initialize in Redux
+- =equals?: (a: T, b: T) => boolean= :: Optional comparator to check if two values of type =T= are identical (default to triple equals)
 
 ** Actions
-For more actions see [[../value/README.org#actions][value readme]]
-- =toggle()= :: Flip current flag value
+- =off()= :: Set current flag off
+- =on()= :: Set current flag on
+- =reset()= :: Reset flag to initial state
+- =set(value: boolean)= :: Set current flag to specified value
+- =toggle()= :: Flip current flag
 
 ** Selectors
-For more selectors see [[../value/README.org#selectors][value readme]]
+- =get(state: S): boolean= :: Get current flag value
 
 ** Example
 #+BEGIN_SRC typescript
@@ -23,6 +27,6 @@ const {actions, reducer, selectors} = Builders.build({
 
 const store = createStore(reducer)
 const flag = selectors.flag1.get(store.getState())
-store.dispatch(actions.flag1.set(true))
+store.dispatch(actions.flag1.off())
 store.dispatch(actions.flag2.toggle())
 #+END_SRC

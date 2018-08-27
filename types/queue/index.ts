@@ -1,3 +1,4 @@
+import {EMPTY_LIST} from '../../util'
 import * as Stack from '../stack'
 
 /** Queue type generator options */
@@ -27,17 +28,23 @@ export const DEFAULT_OPTIONS: Readonly<Options<any>> = {
  * @return Queue type declaration
  */
 export function New<T>(options?: Partial<Options<T>>): Type<T> {
-  const type = Stack.New({
+  const {equals, listEquals: createListEquals, ...newOptions}: Options<T> = {
     ...DEFAULT_OPTIONS,
     ...options,
+  }
+  const type = Stack.New({
+    ...newOptions,
+    equals,
+    listEquals: createListEquals,
   })
+  const listEquals = createListEquals(equals)
   return {
     ...type,
     reducers: {
       ...type.reducers,
       insert: (state, payload) => {
         const items = !Array.isArray(payload) ? [payload] : payload
-        return items.length > 0 ? [...state, ...items] : state
+        return listEquals(items, EMPTY_LIST) ? state : [...state, ...items]
       },
     },
   }

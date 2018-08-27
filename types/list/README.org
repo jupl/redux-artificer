@@ -2,21 +2,22 @@
 List type contains a list of values of type =T=.
 
 ** Options
-For more options see [[../value/README.org#options][value readme]]
-- =initialState?: T[] = []= :: Optional value to initialize in Redux
-- =itemEquals?: (a: T, b: T) => boolean= :: Comparator to check if two values of type =T= are identical (default to triple equals)
+- =initialState?: T[] = []= :: Optional list to initialize in Redux
+- =equals?: (a: T, b: T) => boolean= :: Optional comparator to check if two values of type =T= are identical (default to triple equals)
+- =listEquals?: (equals: a: T, b: T) => (a: T[], b: T[]) => boolean= :: Optional generator to create a comparator to check if lists of type =T[]= are identical
 
 ** Actions
-For more actions see [[../value/README.org#actions][value readme]]
 - =clear()= :: Empty list
 - =insert(items: T | T[])= :: Add items into list
-- =remove(items: T | T[])= :: Remove first occurrence of each item in list
-- =removeAll(items: T | T[])= :: Remove all occurrences of each item in list
+- =remove(items: T | T[])= :: Remove all occurrences of each item in list
+- =removeOnce(items: T | T[])= :: Remove first occurrence of each item in list
+- =reset()= :: Reset list to initial state
+- =set(newValue: T[])= :: Change current list to specified list
 
 ** Selectors
-For more selectors see [[../value/README.org#selectors][value readme]]
 - =contains(state: S, item: T): boolean= :: If =true=, then item is in list
 - =empty(state: S): boolean= :: If =true=, then list is empty
+- =get(state: S): T[]= :: Get list
 
 ** Example
 #+BEGIN_SRC typescript
@@ -36,5 +37,5 @@ const {actions, reducer, selectors} = Builders.build({
 const store = createStore(reducer)
 const contains = selectors.numberList.contains(store.getState(), 1)
 store.dispatch(actions.customList.insert({id: 1, value: 2}))
-store.dispatch(actions.numberList.removeAll([0, 1]))
+store.dispatch(actions.numberList.remove([0, 1]))
 #+END_SRC

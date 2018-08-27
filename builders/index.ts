@@ -2,7 +2,7 @@ import * as Types from '../types'
 import * as Base from './base'
 import * as Composite from './composite'
 
-const DEFAULT_OPTIONS: Options = {
+const DEFAULT_OPTIONS: Readonly<Options> = {
   actionType: '@remix',
   parentKeys: [],
 }
@@ -51,10 +51,7 @@ export function build<T extends (Types.Base.Type | Types.Composite.Type)>(
   type: T,
   options?: Partial<Options>,
 ): Remix<T> {
-  const newOptions: Options = {
-    ...DEFAULT_OPTIONS,
-    ...options,
-  }
+  const newOptions: Options = {...DEFAULT_OPTIONS, ...options}
   if(Types.Base.isType(type)) {
     // @ts-ignore
     return Base.build(type, newOptions)

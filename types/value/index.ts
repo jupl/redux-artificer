@@ -1,3 +1,4 @@
+import {Omit, PartialExcept} from '../../util'
 import * as Base from '../base'
 
 /** Value type generator options */
@@ -23,15 +24,12 @@ export interface Type<S> extends Base.Type<S> {
   selectors: Selectors<S>
 }
 
+type DefaultOptions<T> = PartialExcept<Options<T>, 'initialState'>
+
 /** Default list type options */
 // tslint:disable-next-line:no-any
-export const DEFAULT_OPTIONS: Readonly<Pick<Options<any>, 'equals'>> = {
+export const DEFAULT_OPTIONS: Readonly<Omit<Options<any>, 'initialState'>> = {
   equals: (a, b) => a === b,
-}
-
-interface NewOptions<T> {
-  initialState: T
-  equals?(a: T, b: T): boolean
 }
 
 /**
@@ -39,7 +37,7 @@ interface NewOptions<T> {
  * @param options Value type options
  * @return Value type declaration
  */
-export function New<S>(options: NewOptions<S>): Type<S> {
+export function New<S>(options: DefaultOptions<S>): Type<S> {
   const {initialState, equals}: Options<S> = {...DEFAULT_OPTIONS, ...options}
   return {
     initialState,

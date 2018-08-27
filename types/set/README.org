@@ -2,13 +2,21 @@
 Set type contains a list of unique values of type =T=.
 
 ** Options
-For more options see [[../list/README.org#options][list readme]]
+- =initialState?: T[] = []= :: Optional set to initialize in Redux
+- =equals?: (a: T, b: T) => boolean= :: Optional comparator to check if two values of type =T= are identical (default to triple equals)
+- =listEquals?: (equals: a: T, b: T) => (a: T[], b: T[]) => boolean= :: Optional generator to create a comparator to check if sets of type =T[]= are identical
 
 ** Actions
-For more actions see [[../list/README.org#actions][list readme]]
+- =clear()= :: Empty set
+- =insert(items: T | T[])= :: Add items into set if they are not present already
+- =remove(items: T | T[])= :: Remove occurrences of each item in set
+- =reset()= :: Reset set to initial state
+- =set(newValue: T[])= :: Change current set to specified list
 
 ** Selectors
-For more selectors see [[../list/README.org#selectors][list readme]]
+- =contains(state: S, item: T): boolean= :: If =true=, then item is in set
+- =empty(state: S): boolean= :: If =true=, then set is empty
+- =get(state: S): T[]= :: Get set
 
 ** Example
 #+BEGIN_SRC typescript

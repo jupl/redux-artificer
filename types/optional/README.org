@@ -2,15 +2,16 @@
 Optional type behaves similarly to value type, except that value of type =T= can be uninitialized.
 
 ** Options
-For more options see [[../value/README.org#options][value readme]]
 - =initialState?: T= :: Optional value to initialize in Redux
+- =equals?: (a: T | undefined, b: T | undefined) => boolean= :: Optional comparator to check if two values of type =T= are identical (default to triple equals)
 
 ** Actions
-For more actions see [[../value/README.org#actions][value readme]]
+- =reset()= :: Reset value to initial state
+- =set(newValue: T)= :: Change current value to specified value
 - =unset()= :: Uninitialize value
 
 ** Selectors
-- =get(state: S): T | undefined= :: Extract possibly nested value from state =S= (=undefined= if uninitialized)
+- =get(state: S): T | undefined= :: Get value (=undefined= if uninitialized)
 - =isSet(state: S): boolean= :: If =true=, then value is initialized
 
 ** Example
@@ -19,8 +20,8 @@ import {createStore} from 'redux'
 import {Builders, Types} from 'redux-artificer'
 
 const {actions, reducer, selectors} = Builders.build({
-  optional1: Types.Value.New<string>(),
-  optional2: Types.Value.New({initialState: 1}),
+  optional1: Types.Optional.New<string>(),
+  optional2: Types.Optional.New({initialState: 1}),
 })
 
 const store = createStore(reducer)
