@@ -1,4 +1,4 @@
-import {AnyAction, ReducersMapObject, combineReducers} from 'redux'
+import {AnyAction, ReducersMapObject} from 'redux'
 import * as Builder from '..'
 import {Type} from '../../types/composite'
 
@@ -59,8 +59,8 @@ export function build<T extends Type>(
           ...remix,
           // @ts-ignore
           actions: {...actions, [key]: subActions},
-          // @ts-ignore
-          initialState: {...initialState, [key]: subInitialState},
+          initialState: options
+            .combineState(initialState, key, subInitialState),
           // @ts-ignore
           selectors: {...selectors, [key]: subSelectors},
         },
@@ -75,12 +75,12 @@ export function build<T extends Type>(
       ]
     }, [
       {
-        actions: {} as any, // tslint:disable-line:no-any
-        initialState: {} as any, // tslint:disable-line:no-any
+        actions: undefined!,
+        initialState: undefined!,
         reducer: undefined!,
-        selectors: {} as any, // tslint:disable-line:no-any
+        selectors: undefined!,
       },
       {},
     ])
-  return {...intermediateRemix, reducer: combineReducers(reducersMap)}
+  return {...intermediateRemix, reducer: options.combineReducers(reducersMap)}
 }

@@ -1,16 +1,14 @@
+import {combineReducers} from 'redux'
 import * as Types from '../types'
 import * as Base from './base'
 import * as Composite from './composite'
 
-const DEFAULT_OPTIONS: Readonly<Options> = {
-  actionType: '@remix',
-  parentKeys: [],
-}
-
 /** Remix build options */
 export interface Options {
   actionType: string
+  combineReducers: typeof combineReducers
   parentKeys: string[]
+  combineState<S>(object: S | undefined, key: keyof S, value: S[typeof key]): S
 }
 
 /** Remix structure */
@@ -40,6 +38,15 @@ export type State<T> = T extends Types.Base.Type<infer S>
   : T extends Types.Composite.Type
     ? Composite.State<T>
     : unknown
+
+/** Default builder options */
+export const DEFAULT_OPTIONS: Readonly<Options> = {
+  combineReducers,
+  actionType: '@remix',
+  // tslint:disable-next-line:no-any
+  combineState: (object: any = {}, key, value) => ({...object, [key]: value}),
+  parentKeys: [],
+}
 
 /**
  * Construct Redux items from Remix definitions
