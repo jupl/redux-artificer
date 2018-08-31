@@ -29,7 +29,7 @@ interface Alert {
 
 const {actions, reducer, selectors} = Builders.build({
   alerts: {
-    list: Types.List.New<Alert, number>(),
+    list: Types.Records.New<Alert, number>({getId: ({id}) => id}),
     show: Types.Flag.New(),
   },
   user: {
