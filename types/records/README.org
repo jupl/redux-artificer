@@ -1,0 +1,45 @@
+* Records
+Records type contains a list of values of type =T=, each with a derived unique id of type =I=.
+
+** Options
+- =getId: (item: T) => I= :: Required function to extrapolate ID from item
+- =initialState?: T[] = []= :: Optional list to initialize in Redux
+- =equals?: (a: T, b: T) => boolean= :: Optional comparator to check if two values of type =T= are identical (default to triple equals)
+- =listEquals?: (equals: a: T, b: T) => (a: T[], b: T[]) => boolean= :: Optional generator to create a comparator to check if lists of type =T[]= are identical
+- =idEquals?: (a: T, b: T) => boolean= :: Optional function to check if two IDs are identical
+- =update?: (newItem: T, oldItem: T) => T= :: Optional function to construct an updated item of type =T= from old and new value
+
+** Actions
+- =clear()= :: Empty list
+- =insert(items: T | T[])= :: Add items into list that are does not include existing ID
+- =remove(ids: I | I[])= :: Remove items in list that matches given ID
+- =reset()= :: Reset list to initial state
+- =set(newValue: T[])= :: Change current list to specified list
+- =update(items: T | T[])= :: Update existing items in list with given data
+- =upsert(items: T | T[])= :: Insert or update items in list with given data
+
+** Selectors
+- =contains(state: S, item: T): boolean= :: If =true=, then item is in list
+- =empty(state: S): boolean= :: If =true=, then list is empty
+- =get(state: S): T[]= :: Get list
+- =getById(state: S, id: I): T | undefined= :: Get list item by ID (if it exists)
+
+** Example
+#+BEGIN_SRC typescript
+import {createStore} from 'redux'
+import {Builders, Types} from 'redux-artificer'
+
+interface Book {
+  id: number
+  title: string
+}
+
+const {actions, reducer, selectors} = Builders.build({
+  books: Types.Records.New<Book, number>({getId: ({id}) => id}),
+})
+
+const store = createStore(reducer)
+const item = selectors.books.getById(store.getState(), 1)
+store.dispatch(actions.books.insert({id: 2, title: 'How to Read'}))
+store.dispatch(actions.books.update({id: 2, title: 'Reading Mastery'))
+#+END_SRC

@@ -3,6 +3,8 @@ import * as Types from '../types'
 import * as Base from './base'
 import * as Composite from './composite'
 
+type Type = Types.Base.Type | Types.Composite.Type
+
 /** Remix build options */
 export interface Options {
   actionType: string
@@ -54,7 +56,7 @@ export const DEFAULT_OPTIONS: Readonly<Options> = {
  * @param options Additional options
  * @return Actions, reducers, and selectors
  */
-export function build<T extends (Types.Base.Type | Types.Composite.Type)>(
+export function build<T extends Type>(
   type: T,
   options?: Partial<Options>,
 ): Remix<T> {

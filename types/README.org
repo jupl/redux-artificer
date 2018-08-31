@@ -3,6 +3,7 @@
   - [[optional/README.org#readme][Optional]]
   - [[flag/README.org#readme][Flag]]
 - [[list/README.org#readme][List]]
+  - [[records/README.org#readme][Records]]
   - [[set/README.org#readme][Set]]
   - [[stack/README.org#readme][Stack]]
   - [[queue/README.org#readme][Queue]]
