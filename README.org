@@ -6,7 +6,7 @@
 [[https://david-dm.org/jupl/redux-artificer?type=dev][file:https://img.shields.io/david/dev/jupl/redux-artificer.svg?style=flat-square]]
 
 ** About
-[[https://redux.js.org/][Redux]] builder to construct [[https://www.typescriptlang.org/][TypeScript]]-friendly pieces easily to consume with [[values/README.org#readme][values]]:
+[[https://redux.js.org/][Redux]] builder to construct [[https://www.typescriptlang.org/][TypeScript]]-backed strognly typed pieces easily to consume with [[types/README.org#readme][types]]:
 - Reducer
 - Actions
 - Selectors
@@ -16,7 +16,7 @@
 npm install redux redux-artificer
 #+END_EXAMPLE
 
-** Usage
+** Example
 #+BEGIN_SRC typescript
 import {createStore} from 'redux'
 import {Builders, Types} from 'redux-artificer'
@@ -27,7 +27,7 @@ interface Alert {
   timestamp: number
 }
 
-const {actions, reducer, selectors} = Builders.build({
+const {actions, initialState, reducer, selectors} = Builders.build({
   alerts: {
     list: Types.Records.New<Alert, number>({getId: ({id}) => id}),
     show: Types.Flag.New(),
@@ -41,6 +41,8 @@ const {actions, reducer, selectors} = Builders.build({
   },
 })
 
+type State = typeof initialState
+
 const store = createStore(reducer)
 const hasAccessToken = selectors.user.accessToken.isSet(store.getState())
 const alert1 = selectors.alerts.list.getAt(store.getState(), 1)
@@ -48,3 +50,36 @@ store.dispatch(actions.alerts.list.clear())
 store.dispatch(actions.user.accessToken.unset())
 store.dispatch(actions.user.signedIn.reset())
 #+END_SRC
+
+State is of type:
+#+BEGIN_SRC typescript
+type State = {
+  alerts: {
+    list: Alert[]
+    show: boolean
+  }
+  user: {
+    accessToken: string | null
+    signedIn: boolean
+    type: 'admin' | 'regular' | 'guest'
+  }
+}
+#+END_SRC
+
+Initial state is:
+#+BEGIN_SRC json
+{
+  "alerts": {
+    "list": [],
+    "show": false
+  },
+  "user": {
+    "accessToken": null,
+    "signedIn": false,
+    "type": "guest"
+  }
+}
+#+END_SRC
+
+** Notes
+- While =null= may be used for state, it is only for the benefit of Redux.  =undefined= is used for non existant values for the selectors.
