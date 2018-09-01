@@ -10,7 +10,10 @@ export interface Options {
   actionType: string
   combineReducers: typeof combineReducers
   parentKeys: string[]
-  combineState<S>(object: S | undefined, key: keyof S, value: S[typeof key]): S
+  // tslint:disable-next-line:no-any
+  combineState<S>(state: any, key: keyof S, value: any): S
+  // tslint:disable-next-line:no-any
+  subSelector(state: any, keys: string[]): any
 }
 
 /** Remix structure */
@@ -45,9 +48,9 @@ export type State<T> = T extends Types.Base.Type<infer S>
 export const DEFAULT_OPTIONS: Readonly<Options> = {
   combineReducers,
   actionType: '@remix',
-  // tslint:disable-next-line:no-any
-  combineState: (object: any = {}, key, value) => ({...object, [key]: value}),
+  combineState: (state = {}, key, value) => ({...state, [key]: value}),
   parentKeys: [],
+  subSelector: (state, keys) => keys.reduce((s, key) => s[key], state),
 }
 
 /**

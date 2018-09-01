@@ -46,7 +46,7 @@ export type State<T> = T extends Type<infer S> ? S : unknown
  */
 export function build<T extends Type>(
   {initialState, reducers, selectors}: T,
-  {actionType, parentKeys}: Options,
+  {actionType, parentKeys, subSelector}: Options,
 ): Remix<T> {
   return {
     initialState,
@@ -69,10 +69,8 @@ export function build<T extends Type>(
     selectors: parentKeys.length > 0
       ? Object.entries(selectors).reduce((s, [key, selector]) => ({
         ...s,
-        [key]: (state: any, opts: any) => {
-          const newState = parentKeys.reduce((t, k) => t[k], state)
-          return selector(newState, opts)
-        },
+        [key]: (state: any, opts: any) =>
+          selector(subSelector(state, parentKeys), opts),
       }), {} as any)
       : selectors,
   }
