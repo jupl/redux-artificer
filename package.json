@@ -19,7 +19,7 @@
     "coverage:watch": "npm run coverage -- --watch",
     "lint": "tsc && npm run lint:file",
     "lint:file": "tslint --project tsconfig.json",
-    "pub": "npm run clean && npm run build && npm publish",
+    "pub": "npm run clean && npm run lint && npm run coverage && npm run build && npm publish && npm run clean",
     "test": "jest --config .jestrc.json",
     "test:watch": "npm run test -- --watch"
   },
